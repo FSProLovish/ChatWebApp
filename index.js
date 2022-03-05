@@ -1,6 +1,16 @@
 const express = require("express");
 const port = 8000;
+const path = require("path");
 const app = express();
+
+app.use(express.urlencoded());
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+app.get("/", function (req, res) {
+  return res.render("signIn");
+});
 
 app.listen(port, function (err) {
   if (err) {
