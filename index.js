@@ -52,45 +52,38 @@ app.get("/users/sign-in", function (req, res) {
         console.log("error in finding the user");
         return;
       }
+      return res.redirect("/users/chat_box");
     }
   );
 });
 
 // User's Sign Up page
 app.post("/users/sign-up", function (req, res) {
-  User.findOne(
-    {
-      email: req.body.email,
-    },
-    function (err, user) {
-      if (err) {
-        console.log("error in finding the user");
-        return;
-      }
-      if (!user) {
-        User.create(
-          {
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-          },
-          function (err, newUser) {
-            if (err) {
-              console.log("error in creating a user");
-              return;
-            }
-            return res.redirect("/sign-in");
-          }
-        );
-      } else {
-        res.redirect("back");
-      }
+  if (req.body.password != req.body.confirmPassword) {
+    return res.redirect("back");
+  }
+
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (err) {
+      console.log("error in finding the user in signup");
+      return;
     }
-  );
+    if (!user) {
+      User.create(req.body, function (err, user) {
+        if (err) {
+          console.log("error in creating the user while signing up");
+          return;
+        }
+        return res.redirect("/sign-in");
+      });
+    } else {
+      return res.redirect("back");
+    }
+  });
 });
 
 // Chatting Window
-app.get("/users/chat", function (req, res) {
+app.get("/users/chat-box", function (req, res) {
   return res.render("chat_box");
 });
 

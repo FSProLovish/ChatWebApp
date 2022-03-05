@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In</title>
+    <link rel="stylesheet" href="/css/sign-up.css" />
   </head>
   <body>
-    <form action="" method="get">
-      <input
-        type="email"
-        name="email"
-        id=""
-        placeholder="Eg. example@gmail.com"
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        id=""
-        placeholder="Enter Password"
-        required
-      />
-      <input type="submit" value="Sign In" />
-    </form>
+    <div class="outer-div">
+      <form action="/users/chat-box" method="get">
+        <label class="label-field" for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          class="input-field"
+          placeholder="Eg. example@gmail.com"
+          required
+        />
+        <label class="label-field" for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="input-field"
+          placeholder="Enter Password"
+          required
+        />
+        <div class="button-div">
+          <input type="submit" value="Sign In" class="submit-button" />
+        </div>
+      </form>
+    </div>
   </body>
 </html>
