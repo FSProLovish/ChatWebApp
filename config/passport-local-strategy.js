@@ -27,22 +27,6 @@ passport.use(
   )
 );
 
-// serializing the user to decide which key is to be kept in the cookies
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-// deserializing the user from the key in the cookies
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    if (err) {
-      console.log("Error in finding user ---> Passport");
-      return done(err);
-    }
-    return done(null, user);
-  });
-});
-
 // check if user is authenticated
 passport.checkAuthentication = function (req, res, next) {
   if (req.isAuthenticated()) {

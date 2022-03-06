@@ -1,19 +1,26 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const port = 8000;
 const path = require("path");
 const app = express();
+
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 const db = require("./config/mongoose");
 const User = require("./models/user");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded());
 
 app.use(express.static("assets"));
+app.use(cookieParser());
 
-const passport = require("passport");
-const passportLocal = require("./config/passport-local-strategy");
+// const passport = require("passport");
+// const passportLocal = require("./config/passport-local-strategy");
 
 // Socket for Chat
 const server = require("http").createServer(app);
@@ -45,14 +52,21 @@ app.get("/sign-up", function (req, res) {
 app.get("/users/sign-in", function (req, res) {
   User.findOne(
     {
-      email: req.body.email,
+      email: req.query.email,
     },
     function (err, user) {
       if (err) {
         console.log("error in finding the user");
         return;
       }
-      return res.redirect("/users/chat_box");
+      if (user) {
+        if (user.password != req.query.password) {
+          return res.redirect("back");
+        }
+        return res.redirect("/users/chat-box");
+      } else {
+        return res.redirect("back");
+      }
     }
   );
 });
