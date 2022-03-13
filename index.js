@@ -60,7 +60,9 @@ app.get("/users/sign-in", function (req, res) {
         if (user.password != req.query.password) {
           return res.redirect("back");
         }
-        return res.redirect("/users/chat-box");
+        return res.render("chat_box", {
+          user: user,
+        });
       } else {
         return res.redirect("back");
       }

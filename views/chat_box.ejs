@@ -8,6 +8,7 @@
         padding-bottom: 3rem;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           Helvetica, Arial, sans-serif;
+        background-color: coral;
       }
 
       #form {
@@ -57,22 +58,26 @@
   </head>
   <body>
     <ul id="messages"></ul>
+
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+
     <script>
       var socket = io();
+
+      let name = "<%- locals.user.name %>";
 
       var messages = document.getElementById("messages");
       var form = document.getElementById("form");
       var input = document.getElementById("input");
+      var user_name = document.getElementById("user-name");
 
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         if (input.value) {
-          socket.emit("chat message", input.value);
+          socket.emit("chat message", name + "---->" + input.value);
           input.value = "";
         }
       });
