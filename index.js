@@ -19,17 +19,14 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static("assets"));
 app.use(cookieParser());
 
-// const passport = require("passport");
-// const passportLocal = require("./config/passport-local-strategy");
-
 // Socket for Chat
-const server = require("http").createServer(app);
-const io = require("socket.io")(server, { cors: { origin: "*" } });
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 // To Start Chat Server
 io.on("connection", (socket) => {
-  socket.on("message", (data) => {
-    socket.broadcast.emit("message", data);
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg);
   });
 });
 
@@ -101,7 +98,7 @@ app.get("/users/chat-box", function (req, res) {
   return res.render("chat_box");
 });
 
-server.listen(port, function (err) {
+http.listen(port, function (err) {
   if (err) {
     console.log("error in running the server", err);
   }
